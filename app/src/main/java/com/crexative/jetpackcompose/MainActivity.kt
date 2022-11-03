@@ -5,14 +5,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.crexative.jetpackcompose.ui.theme.JetpackComposeTheme
@@ -27,10 +31,29 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MyBox()
+                    MyStateExample()
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MyStateExample() {
+    var counter by rememberSaveable {
+        mutableStateOf(0)
+    }
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            counter += 1
+        }) {
+            Text(text = "Púlsame")
+        }
+        Text(text = "He sido pulsado $counter veces")
     }
 }
 
@@ -64,8 +87,10 @@ fun MyCombineLayuot() {
             ) {
                 Text(text = "Hola", color = Color.White)
             }
-            Spacer(modifier = Modifier
-                .width(4.dp))
+            Spacer(
+                modifier = Modifier
+                    .width(4.dp)
+            )
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -141,6 +166,6 @@ fun MyBox() {
 @Composable
 fun DefaultPreview() {
     JetpackComposeTheme {
-        MyCombineLayuot()
+        MyStateExample()
     }
 }
