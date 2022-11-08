@@ -252,3 +252,42 @@ OutlinedButton(onClick = {
 ## TextButton
 
 Es un botón sin borde, es como el outline pero sin el borde.
+
+## Componente Image
+
+El componente imagen en android permite recibor in `painterResource` para obtener imágenes en mapas de bits y también se puede renderizar el contenido con iconos usando ``ImageVector para imagenes vectorizadas.
+
+```kotlin
+Image(imageVector = Icons.Default.Face, contentDescription = "ejemplo")
+```
+
+## Imágenes circulares
+
+Con la propiedad de **clip** podemos personalizar nuestras imagenes por ejemplo, para hacer imagenes circulares sin necesidad de hacer uso de bibliotecas externas como lo tendríamos que hacer con XML.
+
+```kotlin
+Image(
+    painter = painterResource(id = R.drawable.ic_launcher_foreground),
+    contentDescription = "android",
+    modifier = Modifier
+        .clip(CircleShape)
+        .border(5.dp, Color.Red, CircleShape)
+        .background(Color.Blue)
+)
+```
+
+## Icon
+
+Jetpack compose trae otro componente, que es el `Icon` que ya viene con las especificaciones de material design para agregar íconos en la aplicación y nos permite cambiar el color de las imágenes de una forma más sencilla.
+
+```kotlin
+Icon(
+    imageVector = Icons.Rounded.Star,
+    contentDescription = "start",
+    tint = Color.Blue
+)
+```
+
+Si quieres usar todos los íconos de MaterialDesign se puede incluir la biblioteca en gradle. Sin embargo, esta biblioteca le añade peso extra a la aplicación.
+
+- `implementation "androidx.compose.material:material-icons-extended:$compose_version"`
