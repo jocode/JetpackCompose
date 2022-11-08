@@ -116,3 +116,93 @@ var counter by rememberSaveable {
 
 counter += 1
 ```
+
+## Text
+
+Un Text es básicamente un TextView en los XML, lo que nos permite mostrar texto.
+
+```kotlin
+Column(modifier = Modifier.fillMaxSize()) {
+    Text(text = "Esto es un ejemplo")
+    Text(text = "Esto es un ejemplo", color = Color.Blue)
+    Text(text = "Esto es un ejemplo", fontWeight = FontWeight.ExtraBold)
+    Text(text = "Esto es un ejemplo", fontWeight = FontWeight.Light)
+    Text(text = "Esto es un ejemplo", fontFamily = FontFamily.Monospace)
+    Text(text = "Esto es un ejemplo", style = TextStyle(fontFamily = FontFamily.Cursive))
+    Text(
+        text = "Esto es un ejemplo",
+        style = TextStyle(textDecoration = TextDecoration.LineThrough)
+    )
+    Text(
+        text = "Esto es un ejemplo",
+        style = TextStyle(textDecoration = TextDecoration.Underline)
+    )
+    Text(
+        text = "Esto es un ejemplo", style = TextStyle(
+            textDecoration = TextDecoration.combine(
+                listOf(
+                    TextDecoration.Underline,
+                    TextDecoration.LineThrough
+                )
+            )
+        )
+    )
+    Text(text = "Esto es un ejemplo", fontSize = 30.sp)
+}
+```
+
+## TextField
+
+Los textField son básicamente EditText
+
+```kotlin
+var myText by remember {
+    mutableStateOf("")
+}
+TextField(value = myText, onValueChange = {
+    myText = it
+})
+```
+
+## TextField avanzado
+
+```kotlin
+var myText by remember { mutableStateOf("") }
+
+TextField(
+    value = myText,
+    onValueChange = {
+        myText = it
+    },
+    label = {
+        Text(text = "Introduce tu nombre")
+    }
+)
+```
+
+## OutlineTextField
+
+Es un TextField que tiene un borde externo, como el del TextInput Layout en XML.
+
+```kotlin
+var myText by remember {
+    mutableStateOf("")
+}
+OutlinedTextField(
+    value = myText, onValueChange = {
+        myText = it
+    },
+    modifier = Modifier.padding(24.dp),
+    label = { Text(text = "Introduce tu nombre") },
+    colors = TextFieldDefaults.outlinedTextFieldColors(
+        focusedBorderColor = Color.Magenta,
+        unfocusedBorderColor = Color.Blue
+    )
+)
+```
+
+## State hoisting
+
+La idea es hacer los componentes stateLess, es decir sin estados.
+State hoisting es un patrón para quitar los estados de los composables.
+La idea es colocarlo en el padre de todo, para que contenga el estado.
