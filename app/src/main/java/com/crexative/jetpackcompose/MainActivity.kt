@@ -1,7 +1,6 @@
 package com.crexative.jetpackcompose
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -10,7 +9,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
@@ -41,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MyButtonExample()
+                    MyProgressAdvance()
                 }
             }
         }
@@ -312,6 +310,66 @@ fun MyIcon() {
         contentDescription = "start",
         tint = Color.Blue
     )
+}
+
+@Composable
+fun MyProgress() {
+    var showLoading by rememberSaveable {
+        mutableStateOf(false)
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        if (showLoading) {
+            CircularProgressIndicator(
+                color = Color.Green,
+                strokeWidth = 1.dp
+            )
+            LinearProgressIndicator(
+                color = Color.White,
+                backgroundColor = Color.Black
+            )
+        }
+        
+        Button(onClick = { showLoading = !showLoading }) {
+            Text(text = "Mostrar progress bar")
+        }
+
+    }
+}
+
+@Composable
+fun MyProgressAdvance() {
+
+    var progressBarStatus by rememberSaveable {
+        mutableStateOf(0f)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        CircularProgressIndicator(progress = progressBarStatus)
+
+        Row(Modifier.fillMaxWidth(),  horizontalArrangement = Arrangement.SpaceEvenly) {
+            Button(onClick = {
+                progressBarStatus -= 0.1f
+            }) {
+                Text(text = "Decrementar")
+            }
+            Button(onClick = {
+                progressBarStatus += 0.1f
+            }) {
+                Text(text = "Incrementar")
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)

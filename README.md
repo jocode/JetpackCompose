@@ -291,3 +291,36 @@ Icon(
 Si quieres usar todos los íconos de MaterialDesign se puede incluir la biblioteca en gradle. Sin embargo, esta biblioteca le añade peso extra a la aplicación.
 
 - `implementation "androidx.compose.material:material-icons-extended:$compose_version"`
+
+## Componente ProgressBar
+
+Es una barra de progreso, para darle un feedback al usuario.
+
+```kotlin
+var showLoading by rememberSaveable {
+    mutableStateOf(false)
+}
+Column(
+    modifier = Modifier
+        .fillMaxSize()
+        .padding(24.dp),
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.SpaceEvenly
+) {
+    if (showLoading) {
+        CircularProgressIndicator(
+            color = Color.Green,
+            strokeWidth = 1.dp
+        )
+        LinearProgressIndicator(
+            color = Color.White,
+            backgroundColor = Color.Black
+        )
+    }
+    
+    Button(onClick = { showLoading = !showLoading }) {
+        Text(text = "Mostrar progress bar")
+    }
+
+}
+```
