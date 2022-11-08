@@ -1,8 +1,10 @@
 package com.crexative.jetpackcompose
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -30,9 +32,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column {
-                        MyTexFieldOutline()
-                    }
+                    MyButtonExample()
                 }
             }
         }
@@ -238,10 +238,45 @@ fun MyTexFieldOutline() {
     )
 }
 
+@Composable
+fun MyButtonExample() {
+    var enabled by remember {
+        mutableStateOf(true)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(25.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Button(
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Black,
+                contentColor = Color.White
+            ),
+            border = BorderStroke(3.dp, Color.Red),
+            enabled = enabled,
+            onClick = {
+                enabled = !enabled
+            }
+        ) {
+            Text(text = "Soy un botón")
+        }
+
+        OutlinedButton(onClick = {
+            /* Todo */
+        }) {
+            Text(text = "Boton Outline")
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     JetpackComposeTheme {
-        MyTextField()
+        MyButtonExample()
     }
 }

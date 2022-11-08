@@ -206,3 +206,49 @@ OutlinedTextField(
 La idea es hacer los componentes stateLess, es decir sin estados.
 State hoisting es un patrón para quitar los estados de los composables.
 La idea es colocarlo en el padre de todo, para que contenga el estado.
+
+## Componente Button
+
+Los botones, por defecto vienen con su lambda onClick, y se les debe definir el contenido que van a tener, como por ejemplo el texto.
+
+```kotlin
+var enabled by remember {
+    mutableStateOf(true)
+}
+
+Column(
+    modifier = Modifier
+        .fillMaxSize()
+        .padding(25.dp),
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center
+) {
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color.Black,
+            contentColor = Color.White
+        ),
+        border = BorderStroke(3.dp, Color.Red),
+        enabled = enabled,
+        onClick = {
+            enabled = !enabled
+        }
+    ) {
+        Text(text = "Soy un botón")
+    }
+}
+```
+
+## Outline Button
+
+```kotlin
+OutlinedButton(onClick = {
+    /* Todo */
+}) {
+    Text(text = "Boton Outline")
+}
+```
+
+## TextButton
+
+Es un botón sin borde, es como el outline pero sin el borde.
