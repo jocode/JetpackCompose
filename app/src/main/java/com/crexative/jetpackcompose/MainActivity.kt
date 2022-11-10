@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,15 +40,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    val myOptions = getOptions(
-                        listOf("Black Panter", "Iron Man", "Thor")
-                    )
-
-                    var selected by remember {
-                        mutableStateOf("Tierra")
-                    }
-                    MyRadioButtonList(selected) {
-                        selected = it
+                    Column() {
+                        MyCard()
+                        MyBadgeBox()
                     }
 
                 }
@@ -498,7 +493,7 @@ fun MyRadioButtonList(name: String, onItemSelected: (String) -> Unit) {
             RadioButton(selected = name == "Mercurio", onClick = { onItemSelected("Mercurio") })
             Text(text = "Mercurio")
         }
-        Row  {
+        Row {
             RadioButton(selected = name == "Venus", onClick = { onItemSelected("Venus") })
             Text(text = "Venus")
         }
@@ -510,6 +505,40 @@ fun MyRadioButtonList(name: String, onItemSelected: (String) -> Unit) {
             RadioButton(selected = name == "Marte", onClick = { onItemSelected("Marte") })
             Text(text = "Marte")
         }
+    }
+}
+
+@Composable
+fun MyCard() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        elevation = 12.dp,
+        shape = MaterialTheme.shapes.small,
+        border = BorderStroke(1.dp, Color.Black)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "Soy contenido 1")
+            Text(text = "Soy contenido 2")
+            Text(text = "Soy contenido 3")
+        }
+    }
+}
+
+@Composable
+fun MyBadgeBox() {
+    BadgedBox(
+        badge = {
+            Text(text = "100", modifier = Modifier
+                .clip(CircleShape)
+                .background(Color.LightGray)
+                .padding(horizontal = 2.dp)
+            )
+        },
+        modifier = Modifier.padding(4.dp)
+    ) {
+        Icon(imageVector = Icons.Default.Notifications, contentDescription = "notifications")
     }
 }
 

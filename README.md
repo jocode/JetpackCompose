@@ -437,3 +437,71 @@ TriStateCheckbox(state = status, onClick = {
 Los radio buttons nos permite seleccionar una opción entre multiples opciones.
 Generalmente los radio buttons van tienen 2 o mas opciones.
 Para usarlo con múltiples radio buttons se usa el state hoisting
+
+```kotlin
+// Uso
+var selected by remember {
+    mutableStateOf("Tierra")
+}
+MyRadioButtonList(selected) {
+    selected = it
+}
+
+
+// Componente
+@Composable
+fun MyRadioButtonList(name: String, onItemSelected: (String) -> Unit) {
+    Column(
+        Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row {
+            RadioButton(selected = name == "Mercurio", onClick = { onItemSelected("Mercurio") })
+            Text(text = "Mercurio")
+        }
+        Row  {
+            RadioButton(selected = name == "Venus", onClick = { onItemSelected("Venus") })
+            Text(text = "Venus")
+        }
+        Row {
+            RadioButton(selected = name == "Tierra", onClick = { onItemSelected("Tierra") })
+            Text(text = "Tierra")
+        }
+        Row {
+            RadioButton(selected = name == "Marte", onClick = { onItemSelected("Marte") })
+            Text(text = "Marte")
+        }
+    }
+}
+```
+
+## Otros Componentes
+
+### Card
+
+Las Cards son componentes visuales de material design que son redondedas y tienen una elevacion.
+Son muy útiles para hacer diseños elegantes en las aplicaciones.
+
+```kotlin
+Card(modifier = Modifier
+    .fillMaxWidth()
+    .padding(16.dp),
+    elevation = 12.dp,
+    shape = MaterialTheme.shapes.small,
+    border = BorderStroke(1.dp, Color.Black)
+) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Soy contenido 1")
+        Text(text = "Soy contenido 2")
+        Text(text = "Soy contenido 3")
+    }
+}
+```
+
+## Surface
+
+Las cards y las surfaces con similares. Sin embargo, las cards muestran contenidos y acciones en un tema simple. Una card es una surface que ya viene con contenido elaborado. como elevación, background y border redondeados.
+
+### BadgeBox
+
+Nos permite crear un circulo de notificaciones dentro de nuestros íconos.
