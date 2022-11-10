@@ -324,3 +324,116 @@ Column(
 
 }
 ```
+
+## Componentes de control de selección
+
+### Switch
+
+```kotlin
+Switch(
+    checked = state,
+    onCheckedChange = {
+        state = !state
+    },
+    enabled = true,
+    colors = SwitchDefaults.colors(
+        uncheckedThumbColor = Color.Green,
+        checkedThumbColor = Color.Blue,
+        uncheckedTrackColor = Color.LightGray
+    )
+)
+```
+
+### Checkbox
+
+```kotlin
+var state by rememberSaveable {
+    mutableStateOf(false)
+}
+
+Checkbox(
+    checked = state,
+    onCheckedChange = {
+        state = !state
+    },
+    enabled = true,
+    colors = CheckboxDefaults.colors(
+        checkedColor = Color.Black,
+        uncheckedColor = Color.LightGray,
+        checkmarkColor = Color.Green
+    )
+)
+```
+
+### Checkbox con texto
+
+```kotlin
+@Composable
+fun MyCheckBoxWithText(checkInfo: CheckInfo) {
+
+    Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(
+            checked = checkInfo.selected,
+            onCheckedChange = checkInfo.onCheckedChange,
+
+            )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = checkInfo.title, modifier = Modifier.clickable {
+            checkInfo.onCheckedChange(!checkInfo.selected)
+        })
+    }
+}
+
+@Composable
+fun getOptions(titles: List<String>): List<CheckInfo> {
+    return titles.map {
+        var state by rememberSaveable {
+            mutableStateOf(false)
+        }
+        CheckInfo(
+            title = it,
+            selected = state,
+            onCheckedChange = { myNewState -> state = myNewState }
+        )
+    }
+}
+
+// Data class
+data class CheckInfo(val title: String, var selected: Boolean = false, var onCheckedChange: (Boolean) -> Unit)
+
+
+// Code to generate a list of checkbox
+val myOptions = getOptions(
+    listOf("Black Panter", "Iron Man", "Thor")
+)
+
+Column {
+    myOptions.forEach {
+        MyCheckBoxWithText(it)
+    }
+}
+```
+
+## Checkbox TriState
+
+Hay una especie de checkbox que también puede ser indeterminado. Que puede tener 3 estados, seleccionado, no seleccionado o indeterminado.
+
+```kotlin
+var status by rememberSaveable {
+    mutableStateOf(ToggleableState.Off)
+}
+
+TriStateCheckbox(state = status, onClick = {
+    status = when (status) {
+        ToggleableState.Off -> ToggleableState.On
+        ToggleableState.On -> ToggleableState.Indeterminate
+        ToggleableState.Indeterminate -> ToggleableState.Off
+    }
+})
+```
+
+### Radio Button
+
+Los radio buttons nos permite seleccionar una opción entre multiples opciones.
+Generalmente los radio buttons van tienen 2 o mas opciones.
+Para usarlo con múltiples radio buttons se usa el state hoisting
