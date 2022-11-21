@@ -40,9 +40,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    Column() {
+                    Column {
                         MyCard()
+                        MyDivider()
                         MyBadgeBox()
+                        MyDropDownMenu()
                     }
 
                 }
@@ -530,15 +532,57 @@ fun MyCard() {
 fun MyBadgeBox() {
     BadgedBox(
         badge = {
-            Text(text = "100", modifier = Modifier
-                .clip(CircleShape)
-                .background(Color.LightGray)
-                .padding(horizontal = 2.dp)
+            Text(
+                text = "100", modifier = Modifier
+                    .clip(CircleShape)
+                    .background(Color.LightGray)
+                    .padding(horizontal = 2.dp)
             )
         },
         modifier = Modifier.padding(4.dp)
     ) {
         Icon(imageVector = Icons.Default.Notifications, contentDescription = "notifications")
+    }
+}
+
+@Composable
+fun MyDivider() {
+    Divider(Modifier.fillMaxWidth())
+}
+
+@Composable
+fun MyDropDownMenu() {
+    var selectedText by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) }
+    val desserts = listOf("Cookies and cream", "Chocolate", "Cookies", "Oreo", "Coffee", "Strawberries")
+
+
+    Column(Modifier.padding(20.dp)) {
+        OutlinedTextField(
+            value = selectedText,
+            onValueChange = { selectedText = it },
+            enabled = false,
+            readOnly = true,
+            modifier = Modifier
+                .clickable {
+                    expanded = true
+                }
+                .fillMaxWidth()
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            desserts.forEach { dessert ->
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    selectedText = dessert
+                }) {
+                    Text(text = dessert)
+                }
+            }
+        }
     }
 }
 
