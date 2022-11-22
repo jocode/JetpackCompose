@@ -45,6 +45,9 @@ class MainActivity : ComponentActivity() {
                         MyDivider()
                         MyBadgeBox()
                         MyDropDownMenu()
+                        BasicSlider()
+                        AdvanceSlider()
+                        MyRangeSlider()
                     }
 
                 }

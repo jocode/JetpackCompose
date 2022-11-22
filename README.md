@@ -565,3 +565,73 @@ fun MyDropDownMenu() {
     }
 }
 ```
+
+## Componente Slider
+
+### Slider
+
+Los slider nos permiten seleccionar un rango, y que el usuario pueda seleccionar el valor como en el volumen o el brillo del teléfono.
+
+```kotlin
+@Composable
+fun BasicSlider() {
+    Column(
+        Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        var sliderPosition by remember {
+            mutableStateOf(0f)
+        }
+        Slider(value = sliderPosition, onValueChange = {
+            sliderPosition = it
+        })
+        Text(text = sliderPosition.toString())
+    }
+}
+
+@Composable
+fun AdvanceSlider() {
+    Column(
+        Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        var sliderPosition by remember { mutableStateOf(0f) }
+        var completedValue by remember { mutableStateOf("0f") }
+
+        Slider(
+            value = sliderPosition,
+            onValueChange = {
+                sliderPosition = it
+            },
+            onValueChangeFinished = {
+                completedValue = sliderPosition.toString()
+            },
+            valueRange = 0f..10f,
+            steps = 9,
+            enabled = false
+        )
+        Text(text = completedValue)
+    }
+}
+```
+
+### RangeSlider
+
+Nos permite hacer un slider con una opción inicial y una final, con un rango.
+
+```kotlin
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MyRangeSlider() {
+    var currentRange by remember { mutableStateOf(0f..10f) }
+    RangeSlider(
+        values = currentRange,
+        onValueChange = { currentRange = it },
+        valueRange = 0f..10f,
+        steps = 9
+    )
+    Text(text = "Valor inferior ${currentRange.start}")
+    Text(text = "Valor Superior ${currentRange.endInclusive}")
+    Text(text = "Rango - $currentRange")
+}
+```
