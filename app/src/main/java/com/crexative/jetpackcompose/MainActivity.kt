@@ -1,6 +1,7 @@
 package com.crexative.jetpackcompose
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
@@ -40,14 +41,20 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    Column {
-                        MyCard()
-                        MyDivider()
-                        MyBadgeBox()
-                        MyDropDownMenu()
-                        BasicSlider()
-                        AdvanceSlider()
-                        MyRangeSlider()
+                    var show by remember { mutableStateOf(false) }
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        Button(onClick = { show = true }) {
+                            Text(text = "Mostrar diálogo")
+                        }
+                        MyConfirmationDialog(
+                            show,
+                            onDismiss = {
+                                show = false
+                            },
+                            onConfirm = {
+                                show = false
+                                Log.i("Jocode", "Dialogo confirmado")
+                            })
                     }
 
                 }
@@ -492,21 +499,21 @@ fun MyRadioButton() {
 fun MyRadioButtonList(name: String, onItemSelected: (String) -> Unit) {
     Column(
         Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(selected = name == "Mercurio", onClick = { onItemSelected("Mercurio") })
             Text(text = "Mercurio")
         }
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(selected = name == "Venus", onClick = { onItemSelected("Venus") })
             Text(text = "Venus")
         }
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(selected = name == "Tierra", onClick = { onItemSelected("Tierra") })
             Text(text = "Tierra")
         }
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(selected = name == "Marte", onClick = { onItemSelected("Marte") })
             Text(text = "Marte")
         }
@@ -557,7 +564,8 @@ fun MyDivider() {
 fun MyDropDownMenu() {
     var selectedText by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
-    val desserts = listOf("Cookies and cream", "Chocolate", "Cookies", "Oreo", "Coffee", "Strawberries")
+    val desserts =
+        listOf("Cookies and cream", "Chocolate", "Cookies", "Oreo", "Coffee", "Strawberries")
 
 
     Column(Modifier.padding(20.dp)) {

@@ -635,3 +635,54 @@ fun MyRangeSlider() {
     Text(text = "Rango - $currentRange")
 }
 ```
+
+## Diálogos en Jetpack Compose
+
+Los diálogos nos permiten mostrar información importante y necesaria al usuario.
+
+```kotlin
+var show by remember { mutableStateOf(false) }
+Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+    Button(onClick = { show = true }) {
+        Text(text = "Mostrar diálogo")
+    }
+    MyDialog(
+        show,
+        onDismiss = {
+            show = false
+        },
+        onConfirm = {
+            show = false
+            Log.i("Jocode", "Dialogo confirmado")
+        })
+}
+
+/* Component */
+@Composable
+fun MyDialog(
+    show: Boolean,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    if (!show) return
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(text = "Titulo")
+        },
+        text = {
+            Text(text = "Descripción del diálogo")
+        },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(text = "Confirm Button")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = "Dismiss Button")
+            }
+        }
+    )
+}
+```
