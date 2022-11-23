@@ -747,3 +747,162 @@ LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
     }
 }
 ```
+
+## Componentes en Jetpack Compose
+
+### Scaffold
+
+El Scaffold es un layout más, es como otro contenedor y está creado para facilitar la creación de vistas.
+
+
+### TopAppBar
+
+En compose se tiene un widget para la Toolbar que se llama `TopAppBar`
+
+```kotlin
+TopAppBar(
+    title = {
+        Text(text = "Toolbar")
+    },
+    backgroundColor = Color.Black,
+    contentColor = Color.White,
+    elevation = 4.dp,
+    navigationIcon = {
+        IconButton(onClick = {}) {
+            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back")
+        }
+    },
+    actions = {
+        IconButton(onClick = {}) {
+            Icon(imageVector = Icons.Default.Search, contentDescription = "search")
+        }
+        IconButton(onClick = {}) {
+            Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+        }
+        IconButton(onClick = {}) {
+            Icon(imageVector = Icons.Default.Menu, contentDescription = "menu")
+        }
+    }
+)
+```
+
+### Snackbar
+
+El snackbar cambia un poco respecto al android normal.
+Para ello se necesita el estado del scaffold y usaremos `rememberScaffoldState()`
+
+
+```kotlin
+val scaffoldState = rememberScaffoldState()
+val coroutineScope = rememberCoroutineScope()
+
+Scaffold(
+    topBar = {
+        MyTopAppBar { action ->
+            coroutineScope.launch {
+                scaffoldState.snackbarHostState.showSnackbar("Has pulsado $action")
+            }
+        }
+    },
+    scaffoldState = scaffoldState
+) {
+    Box(
+        modifier = Modifier
+            .height(50.dp)
+            .fillMaxWidth()
+            .background(Color.Blue)
+    )
+}
+```
+
+### BottomBar
+
+En compose, el bottom navigation se puede implementar de una forma sencilla. Usando los componetes que ya nos provee android con compose.
+
+```kotlin
+fun MyBottomNavigation() {
+    var index by remember {
+        mutableStateOf(0)
+    }
+    BottomNavigation(
+        backgroundColor = Color.Black,
+        contentColor = Color.White
+    ) {
+        BottomNavigationItem(
+            selected = index == 0,
+            onClick = {
+                index = 0
+            },
+            icon = {
+                Icon(imageVector = Icons.Default.Home, contentDescription = "home")
+            },
+            label = {
+                Text(text = "Home")
+            }
+        )
+        BottomNavigationItem(
+            selected = index == 1,
+            onClick = {
+                index = 1
+            },
+            icon = {
+                Icon(imageVector = Icons.Default.Favorite, contentDescription = "Favorite")
+            },
+            label = {
+                Text(text = "Favorite")
+            }
+        )
+        BottomNavigationItem(
+            selected = index == 2,
+            onClick = {
+                index = 2
+            },
+            icon = {
+                Icon(imageVector = Icons.Default.Person, contentDescription = "Person")
+            },
+            label = {
+                Text(text = "Person")
+            }
+        )
+    }
+}
+```
+
+### Floating Action Button
+
+Todos estos componentes se pueden ubicar fácilmente en la pantalla usando el Scaffold.
+
+```kotlin
+FloatingActionButton(
+    onClick = {},
+    backgroundColor = Color.Green
+) {
+    Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
+}
+```
+
+### Modal Drawer
+
+El Drawer en compose, se puede diseñar como se quiera. Ahí lo importante es usarlo en el scaffold dentro de las propiedades de `drawerContent` para que éste componente lo adecúe de la forma correcta. 
+En caso de que se quieran manejar los gestos, es necesario hacer uso del `scaffoldState` para abrir o cerrar el drawer.
+
+```kotlin
+@Composable
+fun MyDrawer(onCloseDrawer: () -> Unit) {
+    val items = listOf(
+        "Primer Opcion", "Segunda Opción", "Tercera Opción", "Cuarta Opción", "Etc..."
+    )
+    Column(modifier = Modifier.padding(8.dp)) {
+        items.forEach { option ->
+            Text(
+                text = option,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+                    .clickable {
+                        onCloseDrawer()
+                    })
+        }
+    }
+}
+```
