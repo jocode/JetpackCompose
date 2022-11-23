@@ -686,3 +686,31 @@ fun MyDialog(
     )
 }
 ```
+
+## RecyclerView :star:
+
+Los recyclerView en android nos permiten mostrar un listado de elementos. Cuando se trabaja con XML se deben definir un adaptador para suministrar los datos a cada item y configurar el widget en la vista que se va a usar. Siempre es arto trabajo el que se debe realizar para mostrar un listado usando las vistas con XML. Sin embargo, con Jetpack compose nos ahorramos todo este proceso siendo más sencillo de implementar las listas con tan solo usar el `LazyColum` o el `LazyRow`.
+
+```kotlin
+val myList = listOf("Juan", "Maria", "Felipe", "Emith", "Camilo", "Daniela", "Julián")
+LazyColumn {
+    items(myList) {
+        TwitterCardAlt()
+    }
+}
+```
+
+Para usar un recyclerView en forma de grilla solo debemos usar el `LazyVerticalGrid`
+
+```kotlin
+val context = LocalContext.current
+LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+    items(superHeroes) { superHero ->
+        ItemHero(superHero = superHero) {
+            Toast.makeText(context, it.superHeroName, Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+```
+
+Para controlar el desplazamiento del recyclerView lo podemos hacer con:
