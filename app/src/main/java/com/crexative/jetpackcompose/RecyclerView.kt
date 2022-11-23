@@ -1,10 +1,7 @@
 package com.crexative.jetpackcompose
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Button
@@ -17,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,7 +39,7 @@ fun SimpleRecyclerView() {
 @Preview
 @Composable
 fun screenView() {
-    SuperHeroWithSpecialControlsView()
+    SuperStickyView()
 }
 
 @Composable
@@ -107,6 +105,35 @@ fun SuperHeroGridView() {
         items(superHeroes) { superHero ->
             ItemHero(superHero = superHero) {
                 Toast.makeText(context, it.superHeroName, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun SuperStickyView() {
+    val context = LocalContext.current
+    val superHeroesMap: Map<String, List<SuperHero>> = superHeroes.groupBy { it.publisher }
+
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+
+        superHeroesMap.forEach { (publisher, data) ->
+            stickyHeader {
+                Text(
+                    text = publisher,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                        .padding(8.dp),
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+            items(data) { superHero ->
+                ItemHero(superHero = superHero) { superHeroItem ->
+                    Toast.makeText(context, superHeroItem.superHeroName, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

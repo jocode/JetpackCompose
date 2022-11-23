@@ -713,4 +713,37 @@ LazyVerticalGrid(cells = GridCells.Fixed(2)) {
 }
 ```
 
-Para controlar el desplazamiento del recyclerView lo podemos hacer con:
+Para controlar el desplazamiento del recyclerView lo podemos hacer con `val rvState = rememberLazyListState()`
+
+## Cabeceras (Sticky Header)
+
+El sticky header nos permite mantener una vista mientras se hace scroll para mostrar la siguiente. Es como las letras en la aplicación de teléfono, que al buscar un contacto los ordena por orden alfabético y dependiendo de la posición en la que se encuentre muestra la respectiva letra en la parte superior.
+
+Con compose es muy sencillo de hacer con un nuevo componenete que es el **`stickyHeader`**:
+
+```kotlin
+val context = LocalContext.current
+val superHeroesMap: Map<String, List<SuperHero>> = superHeroes.groupBy { it.publisher }
+
+LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+
+    superHeroesMap.forEach { (publisher, data) ->
+        stickyHeader {
+            Text(
+                text = publisher,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .padding(8.dp),
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
+            )
+        }
+        items(data) { superHero ->
+            ItemHero(superHero = superHero) { superHeroItem ->
+                Toast.makeText(context, superHeroItem.superHeroName, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}
+```
