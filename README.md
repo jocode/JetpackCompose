@@ -906,3 +906,26 @@ fun MyDrawer(onCloseDrawer: () -> Unit) {
     }
 }
 ```
+
+## Navegación
+
+Ahora en compose la idea principal es usar una signleActivity y que cada vista se encargue de la lógica.
+La navegación se trabaja con rutas, usando el state `rememberNavController`
+
+```kotlin
+val navigationController = rememberNavController()
+
+NavHost(navController = navigationController, startDestination = "screen1") {
+    composable("screen1") {
+        Screen1(navigationController)
+    }
+    composable("screen2") {
+        Screen2(navigationController)
+    }
+    composable("screen3") {
+        Screen3(navigationController)
+    }
+}
+```
+
+### Navegar con argumentos

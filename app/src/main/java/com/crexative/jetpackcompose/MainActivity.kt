@@ -28,6 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.createBitmap
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.crexative.jetpackcompose.model.Routes
 import com.crexative.jetpackcompose.ui.theme.JetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,6 +47,49 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
+                    val navigationController = rememberNavController()
+
+                    NavHost(
+                        navController = navigationController,
+                        startDestination = Routes.SCREEN_1.route
+                    ) {
+                        composable(Routes.SCREEN_1.route) {
+                            Screen1(navigationController)
+                        }
+                        composable(Routes.SCREEN_2.route) {
+                            Screen2(navigationController)
+                        }
+                        composable(Routes.SCREEN_3.route) {
+                            Screen3(navigationController)
+                        }
+                        composable(
+                            Routes.SCREEN_4.route,
+                            arguments = listOf(
+                                navArgument("age") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) { backStackEntry ->
+
+                            Screen4(
+                                navigationController,
+                                backStackEntry.arguments?.getInt("age") ?: 0
+                            )
+                        }
+                        composable(
+                            Routes.SCREEN_5.route,
+                            arguments = listOf(navArgument("name") {
+                                defaultValue = "Pepito"
+                            })
+                        ) { backStackEntry ->
+                            Screen5(
+                                navigationController,
+                                backStackEntry.arguments?.getString("name")
+                            )
+                        }
+                    }
+
+                    /*
                     var show by remember { mutableStateOf(false) }
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Button(onClick = { show = true }) {
@@ -56,6 +105,7 @@ class MainActivity : ComponentActivity() {
                                 Log.i("Jocode", "Dialogo confirmado")
                             })
                     }
+                    */
 
                 }
             }
