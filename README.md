@@ -909,7 +909,8 @@ fun MyDrawer(onCloseDrawer: () -> Unit) {
 
 ## Navegación
 
-Ahora en compose la idea principal es usar una signleActivity y que cada vista se encargue de la lógica.
+Ahora en compose la idea 
+principal es usar una signleActivity y que cada vista se encargue de la lógica.
 La navegación se trabaja con rutas, usando el state `rememberNavController`
 
 ```kotlin
@@ -929,3 +930,31 @@ NavHost(navController = navigationController, startDestination = "screen1") {
 ```
 
 ### Navegar con argumentos
+
+Los argumentos se pasan como parámetros dentro de la URi especificada en la ruta.
+
+```kotlin
+composable(
+    Routes.SCREEN_4.route,
+    arguments = listOf(
+        navArgument("age") {
+            type = NavType.IntType
+        }
+    )
+) { backStackEntry ->
+
+    Screen4(
+        navigationController,
+        backStackEntry.arguments?.getInt("age") ?: 0
+    )
+}
+```
+
+## Arquitectura MVVM con Jetpack Compose
+
+Una arquitectura permite organizar el código haciendo que las aplicaciones sean escalables.
+
+Model-View-ViewModel
+- *Modelo*: Representa toda la parte de datos
+- *View*: Las screen de compose, activities
+- *ViewModel*: Es el que conecta el model con las vistas, el viewModel gestiona la información que se suministra a la vista.
