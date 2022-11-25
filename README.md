@@ -958,3 +958,8 @@ Model-View-ViewModel
 - *Modelo*: Representa toda la parte de datos
 - *View*: Las screen de compose, activities
 - *ViewModel*: Es el que conecta el model con las vistas, el viewModel gestiona la información que se suministra a la vista.
+
+
+## Animaciones con Jetpack Compose
+
+Las animaciones son esenciales para dar una mejor experiencia de usuario
